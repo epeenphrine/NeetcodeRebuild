@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import Navlink from './NavLink'
 import ChartTest from './Chart/ChartTest'
-import TweetContainer from './TweetContainer/TweetContainer'
-import TweetTest from './TweetContainer/TweetTest'
+import TweetTest from './Tweet/TweetTest'
 
 export class TweetChart extends Component {
     state = {
