@@ -1,0 +1,45 @@
+version: "3"
+services:
+    backend:
+        build: 
+            context: ./backend
+            dockerfile: Dockerfile
+        volumes:
+        - ./backend:/backend/
+        ports:
+        - "8000:8000"
+        restart: on-failure
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "200k"
+                max-file: "10"
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        volumes:
+            - ./frontend:/frontend/
+        restart: on-failure
+        ports:
+            - "3000:3000"
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "200k"
+                max-file: "10"
+        depends_on: 
+            - backend
+        stdin_open: true
+        tty: true
+    nginx:
+        build: ./nginx
+        ports:
+            - 1337:80
+        depends_on: 
+            - backend
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "200k"
+                max-file: "10"

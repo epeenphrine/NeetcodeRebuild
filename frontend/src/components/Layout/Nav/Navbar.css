@@ -1,0 +1,7 @@
+.navbar {
+    background-color: transparent;
+    height: 200px;
+}
+.navbar .navbar-brand {
+    font-size: 50px;
+}

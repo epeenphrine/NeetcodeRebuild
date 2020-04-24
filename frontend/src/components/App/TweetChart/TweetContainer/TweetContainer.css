@@ -1,0 +1,8 @@
+.box-container {
+  border: 1px solid whitesmoke;
+}
+.timeline-container {
+  width: 40%;
+  height: 100%;
+  margin: 0;
+}

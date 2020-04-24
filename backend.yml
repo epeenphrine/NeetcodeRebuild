@@ -1,0 +1,15 @@
+version: "3"
+services:
+    backend:
+        build: 
+            context: ./backend
+            dockerfile: Dockerfile
+        volumes:
+        - ./backend:/backend/
+        ports:
+        - "8000:8000"
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "200k"
+                max-file: "10"
