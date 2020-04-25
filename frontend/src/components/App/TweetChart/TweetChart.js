@@ -55,8 +55,8 @@ export class TweetChart extends Component {
                 //console.log(this.state.stock)
                 //console.log(this.state.res)
             }).catch(() => console.log("couldn't get key"))
-
-        fetch(`${process.env.REACT_APP_NEETCODE_API}`)
+        
+            fetch(`${process.env.REACT_APP_NEETCODE_API}`)
             .then(res => res.json())
             .then(data => {
                 this.setState({
