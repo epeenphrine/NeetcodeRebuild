@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Navlink from './NavLink'
 import ChartTest from './Chart/ChartTest'
 import TweetTest from './Tweet/TweetTest'
+import axios from 'axios'
 
 export class TweetChart extends Component {
     state = {
@@ -9,15 +10,19 @@ export class TweetChart extends Component {
         stock: {},
         x: [],
         y: [],
-        tweet_id: "1253700113383534598",
-        new_date: ''
+        tweet_id: ["1254145835450933249", "1254050117767880706","1254021070379769856","1253788620642750464"],
+        filtered_tweet_ids: [],
+        new_date: [],
+        neetcode_res: {},
+        tweet_api_date: [],
+        tweet_api_tweet_id: []
     }
 
 
 
     handleHover(event) {
         this.setState({
-            new_date: event
+            filtered_tweet_ids: this.state.neetcode_res.filter( neetcode => neetcode.date === event),
         })
     }
     // pass function to child to update state 
@@ -28,7 +33,7 @@ export class TweetChart extends Component {
 
 
 
-    
+
     componentDidMount() {
         fetch(
             `https://api.tdameritrade.com/v1/marketdata/SPX/pricehistory?apikey=${process.env.REACT_APP_TDA_API_KEY}&periodType=month&period=1&frequencyType=daily`
@@ -41,19 +46,47 @@ export class TweetChart extends Component {
                     ),
                     x: data.candles.map(candle =>
                         //epoch time converting to mm/ddd/yyyy format using template stringing 
-                        `${new Date(candle.datetime).getUTCMonth() + 1}-${new Date(candle.datetime).getUTCDate()}-${new Date(candle.datetime).getUTCFullYear()}`
+                            `${new Date(candle.datetime).getUTCFullYear()}-${new Date(candle.datetime).getUTCMonth() + 1}-${new Date(candle.datetime).getUTCDate()}`
 
                     ),
                     stock: data.symbol
                 })
-                //console.log(this.state.x)
                 //console.log(this.state.y)
                 //console.log(this.state.stock)
                 //console.log(this.state.res)
             }).catch(() => console.log("couldn't get key"))
+
+        fetch(`${process.env.REACT_APP_NEETCODE_API}`)
+            .then(res => res.json())
+            .then(data => {
+                this.setState({
+                    neetcode_res: data,
+                })
+                console.log(this.state.neetcode_res)
+            })
+            .catch(() => console.log("can't get neetcode api "))
     }
 
     render() {
+        const tweetscheck = this.state.filtered_tweet_ids
+        let tweets; 
+        if (this.state.filtered_tweet_ids) {
+            tweets = this.state.filtered_tweet_ids.map( tweet => {
+                return( 
+                    <TweetTest 
+                        tweet_id={tweet.tweet_id.toString()}
+                    />
+                )
+            })
+        } 
+        let tweetstest = this.state.tweet_id.map( tweet => {
+            return (
+                <TweetTest
+                key={tweet}
+                tweet_id={tweet.toString()}
+                />
+            )
+        })
         return (
             <div>
 
@@ -68,11 +101,7 @@ export class TweetChart extends Component {
                             tweet_id={this.state.tweet_id}
                             handleHover={this.handleHover}
                         />
-
-                        <TweetTest
-                            tweet_id={this.state.tweet_id}
-                            new_date={this.state.new_date}
-                        />
+                        {tweets}
                     </div>
                 </div>
             </div>
