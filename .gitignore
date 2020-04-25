@@ -7,6 +7,9 @@ db.sqlite3
 media
 static
 prod_secret.py
+test.js 
+testapi.py
+
 
 #node and pipenv
 Pipfile
