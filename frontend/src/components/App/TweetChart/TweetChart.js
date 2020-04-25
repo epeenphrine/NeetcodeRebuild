@@ -65,6 +65,7 @@ export class TweetChart extends Component {
                 console.log(this.state.neetcode_res)
             })
             .catch(() => console.log("can't get neetcode api "))
+    
     }
 
     render() {
