@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Navlink from './NavLink'
 import ChartTest from './Chart/ChartTest'
 import TweetTest from './Tweet/TweetTest'
-import axios from 'axios'
+import './TweetChart.css'
 
 export class TweetChart extends Component {
     state = {
@@ -10,7 +10,7 @@ export class TweetChart extends Component {
         stock: {},
         x: [],
         y: [],
-        tweet_id: ["1254145835450933249", "1254050117767880706","1254021070379769856","1253788620642750464"],
+        tweet_id: ["1254145835450933249", "1254050117767880706", "1254021070379769856", "1253788620642750464"],
         filtered_tweet_ids: [],
         new_date: [],
         neetcode_res: {},
@@ -22,7 +22,9 @@ export class TweetChart extends Component {
 
     handleHover(event) {
         this.setState({
-            filtered_tweet_ids: this.state.neetcode_res.filter( neetcode => neetcode.date === event),
+            filtered_tweet_ids: this.state.neetcode_res.filter(
+                neetcode => neetcode.date === event
+            )
         })
     }
     // pass function to child to update state 
@@ -46,7 +48,7 @@ export class TweetChart extends Component {
                     ),
                     x: data.candles.map(candle =>
                         //epoch time converting to mm/ddd/yyyy format using template stringing 
-                            `${new Date(candle.datetime).getUTCFullYear()}-${new Date(candle.datetime).getUTCMonth() + 1}-${new Date(candle.datetime).getUTCDate()}`
+                        `${new Date(candle.datetime).getUTCFullYear()}-${new Date(candle.datetime).getUTCMonth() + 1}-${new Date(candle.datetime).getUTCDate()}`
 
                     ),
                     stock: data.symbol
@@ -55,8 +57,8 @@ export class TweetChart extends Component {
                 //console.log(this.state.stock)
                 //console.log(this.state.res)
             }).catch(() => console.log("couldn't get key"))
-        
-            fetch(`${process.env.REACT_APP_NEETCODE_API}`)
+
+        fetch(`${process.env.REACT_APP_NEETCODE_API}`)
             .then(res => res.json())
             .then(data => {
                 this.setState({
@@ -65,44 +67,40 @@ export class TweetChart extends Component {
                 console.log(this.state.neetcode_res)
             })
             .catch(() => console.log("can't get neetcode api "))
-    
+
     }
 
     render() {
-        const tweetscheck = this.state.filtered_tweet_ids
-        let tweets; 
+        let tweets;
         if (this.state.filtered_tweet_ids) {
-            tweets = this.state.filtered_tweet_ids.map( tweet => {
-                return( 
-                    <TweetTest 
-                        tweet_id={tweet.tweet_id.toString()}
+            tweets = this.state.filtered_tweet_ids.map(tweet => {
+                return (
+                    <TweetTest
+                        key={tweet.tweet_id}
+                        tweet_id={tweet.tweet_id}
                     />
                 )
             })
-        } 
-        let tweetstest = this.state.tweet_id.map( tweet => {
-            return (
-                <TweetTest
-                key={tweet}
-                tweet_id={tweet.toString()}
-                />
-            )
-        })
+        }
         return (
             <div>
 
                 <div className='d-flex flex-column justify-content-around'>
                     <Navlink
                     />
-                    <div className='d-flex flex-row justify-content-around flex-wrap'>
-                        <ChartTest
-                            stock={this.state.stock}
-                            x={this.state.x}
-                            y={this.state.y}
-                            tweet_id={this.state.tweet_id}
-                            handleHover={this.handleHover}
-                        />
-                        {tweets}
+                        <div className='row'>
+                            <div className='d-inline-block p-3' >
+                                <ChartTest
+                                    stock={this.state.stock}
+                                    x={this.state.x}
+                                    y={this.state.y}
+                                    tweet_id={this.state.tweet_id}
+                                    handleHover={this.handleHover}
+                                />
+                            </div>
+                            <div className='d-inline-block p-3' >
+                                {tweets}
+                        </div>
                     </div>
                 </div>
             </div>
