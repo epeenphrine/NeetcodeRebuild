@@ -66,8 +66,10 @@ class TweetApi(models.Model):
     tweet = models.TextField('tweet')
     date = models.DateField()
     url = models.CharField(max_length=400)
+    tweet_id = models.CharField(max_length=400)
 
     class Meta:
         verbose_name_plural = 'Tweets'
     def __str__(self):
-        return self.handle
+        display = f"{self.handle}, {self.date}, {self.tweet_id}"
+        return display
