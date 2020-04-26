@@ -67,7 +67,7 @@ export class ChartTest extends Component {
                         layout={{
                             autosize: true, title: this.props.stock, tracetoggle: false, displayModeBar: false, margin: {
                                 l: 60,
-                                r: 30,
+                                r: 50,
                                 b: 80,
                                 t: 70,
                                 pad: 4
@@ -93,7 +93,7 @@ export class ChartTest extends Component {
                         layout={{
                             autosize: true, title: 'Amount of tweets this day', tracetoggle: false, displayModeBar: false, margin: {
                                 l: 60,  
-                                r: 10,
+                                r: 40,
                                 b: 40,
                                 t: 80,
                                 pad: 4
