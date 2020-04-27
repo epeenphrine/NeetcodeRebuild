@@ -48,9 +48,8 @@ export class ChartTest extends Component {
     //}
 
     render() {
-
-
         return (
+
             <div className='contininer'>
                 <div className='row'>
 
@@ -84,7 +83,7 @@ export class ChartTest extends Component {
                         data={[
                             {
                                 x: this.props.x,
-                                y: [1, 2, 50, 60, 70, 80, 150],
+                                y: this.props.y_bar,
                                 type: 'bar',
                                 mode: 'lines+markers',
                                 marker: { color: 'red' },

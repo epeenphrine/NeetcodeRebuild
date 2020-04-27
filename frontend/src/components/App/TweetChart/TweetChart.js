@@ -10,15 +10,12 @@ export class TweetChart extends Component {
         stock: {},
         x: [],
         y: [],
-        tweet_id: ["1254145835450933249", "1254050117767880706", "1254021070379769856", "1253788620642750464"],
+        y_bar: [],
         filtered_tweet_ids: [],
-        new_date: [],
-        neetcode_res: {},
-        tweet_api_date: [],
-        tweet_api_tweet_id: []
+        neetcode_res: [],
+        total_tweets_dates: [],
+        total_tweets: [],
     }
-
-
 
     handleHover(event) {
         this.setState({
@@ -32,10 +29,19 @@ export class TweetChart extends Component {
         super(props)
         this.handleHover = this.handleHover.bind(this)
     }
+    formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getUTCMonth() + 1),
+            day = '' + d.getUTCDate(),
+            year = d.getUTCFullYear();
 
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
 
-
-
+        return [year, month, day].join('-');
+    }
     componentDidMount() {
         fetch(
             `https://api.tdameritrade.com/v1/marketdata/SPX/pricehistory?apikey=${process.env.REACT_APP_TDA_API_KEY}&periodType=month&period=1&frequencyType=daily`
@@ -47,12 +53,15 @@ export class TweetChart extends Component {
                         candle.close
                     ),
                     x: data.candles.map(candle =>
-                        //epoch time converting to mm/ddd/yyyy format using template stringing 
-                        `${new Date(candle.datetime).getUTCFullYear()}-${new Date(candle.datetime).getUTCMonth() + 1}-${new Date(candle.datetime).getUTCDate()}`
-
+                    //epoch time converting to mm/ddd/yyyy format using template stringing 
+                    //`${new Date(candle.datetime).getUTCFullYear()}-${new Date(candle.datetime).getUTCMonth() + 1}-${new Date(candle.datetime).getUTCDate()}`
+                    {
+                        return (this.formatDate(candle.datetime))
+                    }
                     ),
                     stock: data.symbol
                 })
+                //console.log(this.state.x)
                 //console.log(this.state.y)
                 //console.log(this.state.stock)
                 //console.log(this.state.res)
@@ -63,14 +72,18 @@ export class TweetChart extends Component {
             .then(data => {
                 this.setState({
                     neetcode_res: data,
+                    y_bar: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,4,5]
                 })
-                console.log(this.state.neetcode_res)
+                //console.log(this.state.neetcode_res)
             })
             .catch(() => console.log("can't get neetcode api "))
+
 
     }
 
     render() {
+        //don't call stuff in here by this.
+       
         let tweets;
         if (this.state.filtered_tweet_ids) {
             tweets = this.state.filtered_tweet_ids.map(tweet => {
@@ -82,24 +95,45 @@ export class TweetChart extends Component {
                 )
             })
         }
+       
+        
+        let y_bar = [] 
+
+        this.state.x.forEach(
+            item => {
+                var count = 0 
+                this.state.neetcode_res.forEach(
+                    item1 => {
+                        if ( item === item1.date) {
+                            count += 1
+                        }
+                    }
+                )
+                y_bar.push(count)
+            }
+        )
+
         return (
             <div>
 
                 <div className='d-flex flex-column justify-content-around'>
                     <Navlink
                     />
-                        <div className='row'>
-                            <div className='d-inline-block p-3' >
-                                <ChartTest
-                                    stock={this.state.stock}
-                                    x={this.state.x}
-                                    y={this.state.y}
-                                    tweet_id={this.state.tweet_id}
-                                    handleHover={this.handleHover}
-                                />
-                            </div>
-                            <div className='d-inline-block p-3' >
-                                {tweets}
+
+                    <div className='row container-fluid'>
+                        <div className='d-inline-block p-3' >
+                            <ChartTest
+                                stock={this.state.stock}
+                                x={this.state.x}
+                                y={this.state.y}
+                                handleHover={this.handleHover}
+                                y_bar={y_bar}
+
+                            />
+                        </div>
+                        <div className='d-inline-block p-3' >
+                            <h2>what trump tweeted this day</h2>
+                            {tweets}
                         </div>
                     </div>
                 </div>
