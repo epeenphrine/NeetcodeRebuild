@@ -15,12 +15,13 @@ export class TweetChart extends Component {
         neetcode_res: [],
         total_tweets_dates: [],
         total_tweets: [],
+        tweets_test: ['1254767509460234243', '1254769296280031232', '1254575880510287872','1254518803888734217','1254481206936326145']
     }
 
     handleHover(event) {
         this.setState({
             filtered_tweet_ids: this.state.neetcode_res.filter(
-                neetcode => neetcode.date === event
+                item => item.date === event
             )
         })
     }
@@ -72,9 +73,8 @@ export class TweetChart extends Component {
             .then(data => {
                 this.setState({
                     neetcode_res: data,
-                    y_bar: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,4,5]
                 })
-                //console.log(this.state.neetcode_res)
+                console.log(this.state.neetcode_res)
             })
             .catch(() => console.log("can't get neetcode api "))
 
@@ -112,7 +112,15 @@ export class TweetChart extends Component {
                 y_bar.push(count)
             }
         )
-
+        let tweetstest = this.state.tweets_test.map( tweet => {
+            return (
+                <TweetTest
+                key={tweet}                
+                tweet_id={tweet}
+                />
+            )
+        })
+        console.log(this.state.filtered_tweet_ids)
         return (
             <div>
 
