@@ -62,10 +62,10 @@ class About(models.Model):
         return self.role
 #tweet api
 class TweetApi(models.Model):
-    handle = models.CharField(max_length=400)
-    tweet = models.TextField('tweet')
-    date = models.DateField()
-    url = models.CharField(max_length=400)
+    tweet_handle = models.CharField(max_length=400)
+    tweet_content = models.TextField('tweet')
+    tweet_date = models.DateField()
+    tweet_url = models.CharField(max_length=400)
     tweet_id = models.CharField(max_length=400)
 
     class Meta:
