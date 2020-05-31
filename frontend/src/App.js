@@ -7,10 +7,10 @@ import React, { Component, Fragment } from "react";
 import Navbar from "./components/Layout/Nav/Navbar";
 //pages
 import Home from './components/Pages/Home/Home'
-
+import Testing from './components/Testing/Testing'
 //apps
 import TweetChart from './components/App/TweetChart/TweetChart'
-
+import Covid19 from './components/App/Covid19/Covid19'
 
 
 
@@ -19,22 +19,21 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import './App.css'
 
+
 function App() {
 
   return (
 
     <Router >
       <Fragment >
-
         <div className="App">
-          <Navbar />
+          <Navbar /> 
           <Switch>
-
           </Switch>
-          <div className='container-fluid'>
             <Route exact path="/" component={Home} />
+            <Route exact path="/testing" component={Testing} />
             <Route exact path="/app/tweetchart/" component={TweetChart} />
-          </div>
+            <Route exact path='/app/covid19/' component={Covid19} />
         </div>
       </Fragment>
     </Router>

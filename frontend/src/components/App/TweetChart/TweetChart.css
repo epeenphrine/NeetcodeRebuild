@@ -1,0 +1,7 @@
+.overflow-y {
+    height: 1500px;
+    overflow-y: auto;
+}
+.tweet-chart {
+    margin-top: 1em;
+}

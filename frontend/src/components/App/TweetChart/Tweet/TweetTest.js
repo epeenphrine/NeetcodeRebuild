@@ -8,7 +8,7 @@ export class TweetTest extends Component {
 
     render() {
         return (
-            <div>
+            <div >
                 <TweetEmbed id={this.props.tweet_id} options={{theme: 'dark'}} /> 
             </div>
         )

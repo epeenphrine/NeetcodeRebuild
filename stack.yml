@@ -1,0 +1,66 @@
+## need to have registry to pull images to swarm without dockerhub
+## every node need to have a registry service to get the image 
+# docker service create --name registry --publish published=5000,target=5000 registry:2
+
+## after making registry service push image to registry
+# docker tag <image_id> 127.0.0.1:5000/<image_name>
+# docker push 127.0.0.1:5000/<image_name>
+
+## have to send credential from master to deploy from hub.
+# docker stack deploy --with-registry-auth -c stack.yml testing 
+
+## deploy is where all the services command goes to 
+
+version: "3"
+services:
+    backend:
+        image: epeenphrine/backend 
+        ports:
+            - 8000:1337
+        restart: on-failure
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "200k"
+                max-file: "10"
+        deploy:
+            placement:
+                constraints: 
+                    - "node.id==ex8rag34ftpmqu9varrympdaz"
+
+    frontend:
+        image: 127.0.0.1:5000/testing
+        ports:
+            - "3000:3000"
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "200k"
+                max-file: "10"
+        depends_on: 
+            - backend
+        stdin_open: true
+        tty: true
+
+        deploy:
+            placement:
+                constraints:
+                    - "node.id==ex8rag34ftpmqu9varrympdaz"
+    registry:
+        image: registry:2
+        deploy: 
+            mode: global 
+
+
+    #nginx:
+        #build: ./nginx
+        #ports:
+            #- 1337:80
+        #depends_on: 
+            #- backend
+            #- frontend
+        #logging:
+            #driver: "json-file"
+            #options:
+                #max-size: "200k"
+                #max-file: "10"

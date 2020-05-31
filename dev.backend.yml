@@ -1,0 +1,32 @@
+version: "3"
+services:
+    dev-flask:
+        build: 
+            context: ./api_flask 
+            dockerfile: Dockerfile
+        volumes:
+        - ./api_flask:/api_flask/
+        ports:
+        - "6543:6543"
+        restart: on-failure
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "200k"
+                max-file: "10"
+    dev-gin:
+        build: 
+            context: ./api_gin
+            dockerfile: Dockerfile
+        volumes:
+        - ./api_gin:/api_gin/
+        ports:
+        - "1500:1500"
+        restart: on-failure
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "200k"
+                max-file: "10"
+
+

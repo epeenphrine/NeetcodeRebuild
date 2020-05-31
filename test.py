@@ -22,3 +22,10 @@ for i in range(0, len(dates)):
     for item in items:
         if dates[i] == item['date']:
             print(item)
+
+# %%
+import requests
+url = 'https://google.com'
+res = requests.get(url)
+print(res.content)
+
