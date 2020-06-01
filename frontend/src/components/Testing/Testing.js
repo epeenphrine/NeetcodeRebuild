@@ -1,19 +1,20 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 
 export default function Testing() {
     const [api, setApi] = useState(
         {
-            data: [] 
+            data: []
         }
     )
 
-     function getAPI() {
+    function getAPI() {
         const res = [
             "united states",
             "china",
             "korea",
-            "japan"
-        ] 
+            "japan",
+            "china"
+        ]
 
         console.log(res)
         setApi({
@@ -31,13 +32,20 @@ export default function Testing() {
         )
     })
 
-    const filter = api.data.filter( item => item.includes("chin")).map(filtereditem => (
-    <h1>{filtereditem}</h1>
+    const filter = api.data.filter(item => item.includes("chin")).map(filtereditem => (
+        <li>{filtereditem}</li>
     ))
+    
+    const handleCllick = (e) => {
+        console.log(e.target)
+    }
 
     return (
         <div>
-            {filter}
+
+            <ul onClick={handleCllick}>
+                {filter}
+            </ul>
         </div>
     )
 }
