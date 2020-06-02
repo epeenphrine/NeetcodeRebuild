@@ -27,6 +27,7 @@ export class Table extends Component {
                 </tr>
             )
         })
+
         const thTotal = thColTotal.map((th, i) => {
             const item = globalTotal[i]
             return (
@@ -43,9 +44,6 @@ export class Table extends Component {
                 </tr>
             )
         })
-
-
-        console.log(this.props.global)
         return (
             <div>
                 <div className="row">

@@ -7,8 +7,9 @@ import (
 )
 
 func scrape(c *gin.Context) {
-	localServer := "http://192.168.86.31:6543/flask/scrape/"
 
+	localServer := "http://192.168.86.31:6543/flask/scrape/"
+	
 	//http://localhost:6543/flask/scrape/twitter?handle=elonmusk
 	//query url string and then pass json response from requests
 
@@ -30,4 +31,10 @@ func scrape(c *gin.Context) {
 				"message": "did you enter query correctly?",
 			})
 	}
+}
+func flask(c *gin.Context) {
+	localServer := "http://192.168.86.31:6543/"
+	q := c.Query("q")
+	s := c.Query("s")
+	url := localServer + 
 }

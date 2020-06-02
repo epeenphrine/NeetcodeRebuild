@@ -1,0 +1,2 @@
+## flask api 
+this was built to connect my python modules / scripts to an api. Django is too heavy if i want to execute something simple or another script. I also don't want to risk crashing django executing another script as there are alot of things running in the background. 

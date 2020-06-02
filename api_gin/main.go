@@ -44,6 +44,7 @@ func main() {
 	r.GET("/proxy/:path", proxyReq)
 	r.Use(middleware)
 	r.Use(cors.Default())
+	r.GET("/flask/:path", flask)
 	r.GET("/flask/scrape/:path", scrape)
 	r.Run(":1500")
 
