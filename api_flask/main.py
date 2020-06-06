@@ -8,14 +8,13 @@ from flask_cors import CORS
 ## local module
 from proxy_route import proxy_route
 from twitterwebhook.twitter_scrape_flask import TwitterScraper 
-from countries_historical import countries_historical
+from covid_process import countries_historical
 app = Flask(__name__)
 app.register_blueprint(proxy_route)
 CORS(app)
 
-## some work arounds to cors origin error as well as securing api connected to databases 
-
-@app.route('/flask/scrape/twitter', methods=['POST', 'GET'])
+## this is broken because twitter now asks for javascript, may try again later when i have time
+@app.route('/flask/scrape/twitter', methods=['GET'])
 def proxy_request():
     handle = request.args.get('handle')
     tweets = TwitterScraper(f"{handle}").twitter_scrape()
@@ -30,4 +29,4 @@ def proxy_process():
     return res
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=1333)
+    app.run(debug=True, host='0.0.0.0', port=6543)

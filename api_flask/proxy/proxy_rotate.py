@@ -54,6 +54,7 @@ def proxy_rotate(url):
                     try:
                         json_data = json.loads(res.content)
                         soup = bs.BeautifulSoup(json_data['items_html'], 'lxml')
+                        
                         print("got soup in try")
                         return soup
                     except:
